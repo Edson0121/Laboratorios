@@ -14,3 +14,7 @@ y demas.
 ## Laboratorio 3
 
 Este laboratorio es introductivo del lenguaje C. Cuenta con 3 ejercicios que se enfocan en entender y aprender a manejar el lenguaje. Se trabaja con loops, funciones, diferentes tipos de variable y demas.
+
+## Laboratorio 4
+
+Este laboratorio cuenta con un ejercicio en C para trabajar con archivos. En este se planea leer un archivo y efecutar dviersas operaciones con el, desde imprimir datos, ordenarlos y editar el archivo.
