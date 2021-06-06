@@ -139,8 +139,12 @@ void updateUserData(FILE* fpointer)
     if(option == 1)
     {
         // Variables for new line
-        int bufferSize = 50, count = 0;
-        char newLine[bufferSize], singleLine[bufferSize];
+        int bufferSize = 50;
+        size_t maxSz = 50;
+        int count = 0;
+        char *newLine;
+        newLine = (char *)malloc(maxSz);
+        char singleLine[bufferSize];
         // Pointer to temporary file
         FILE * tempPtr;
         // Print each line in the original file
@@ -160,9 +164,14 @@ void updateUserData(FILE* fpointer)
         // Remove extra new line character from stdin
         // fflush(stdin);
         // Get new line
+        int bytes_read;
         printf("Replace line '%d' with: ", line);
-        scanf("%s", newLine);
-        getchar();
+        bytes_read = getline(&newLine, &maxSz, stdin);
+        if(bytes_read == -1)
+        {
+            perror(NULL);
+            exit(1);
+        }
         // Pointer to temporary file
         tempPtr = fopen("replace.tmp", "w");
         // Check if pointer is NULL
@@ -191,6 +200,7 @@ void updateUserData(FILE* fpointer)
 
         // Close file
         fclose(tempPtr);
+        free(newLine);
         // Delete old file
         remove("user_list.txt");
         // Rename temporary file
