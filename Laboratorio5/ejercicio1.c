@@ -19,6 +19,9 @@ int insertarInicio(NODO **cabeza, int dato);
 int insertarFinal(NODO **cabeza, int dato);
 int eliminarNodo(NODO **cabeza, int dato);
 void imprimirLista(NODO *cabeza);
+void addDatoAntes(NODO ** cabeza, NODO *siguiente_nodo, int dato_nuevo);
+void addDatoDes(NODO **cabeza, NODO *anterior_nodo, NODO *siguiente_nodo, int dato_nuevo);
+void eliminar(NODO **cabeza);
 
 int main()
 {
@@ -29,9 +32,12 @@ int main()
     insertarInicio(&cabeza, 2);
     insertarFinal(&cabeza, 3);
     insertarFinal(&cabeza, 4);
-    eliminarNodo(&cabeza, 2);
+    eliminarNodo(&cabeza, 1);
+    addDatoAntes(&cabeza, cabeza->siguiente, 5);
     // Imprimimos la lista
     imprimirLista(cabeza);
+    // Liberamos el espacio de la lista
+    eliminar(&cabeza);
 
     return 0;
 }
@@ -164,6 +170,44 @@ int eliminarNodo(NODO **cabeza, int dato)
     return 0;
 }
 
+void addDatoAntes(NODO **cabeza, NODO *siguiente_nodo , int dato_nuevo)
+{
+    // Se crea un nodo
+    NODO* nuevo = NULL;
+    // Se llama a la funcion de crear con el dato
+    nuevo = crearNodo(dato_nuevo);
+    if (siguiente_nodo == NULL)
+    {
+        printf("No existe.\n");
+    }
+    nuevo->anterior = siguiente_nodo->anterior;
+    nuevo->siguiente = siguiente_nodo;
+    siguiente_nodo->anterior = nuevo;
+    if (nuevo->anterior != NULL)
+    {
+        nuevo->anterior->siguiente=nuevo;
+    }
+}
+
+void  addDatoDes(NODO **cabeza, NODO *anterior_nodo, NODO *siguiente_nodo, int dato_nuevo)
+{
+    // Se crea un nodo
+    NODO* nuevo = NULL;
+    // Se llama a la funcion de crear con el dato
+    nuevo = crearNodo(dato_nuevo);
+    if(siguiente_nodo == NULL)
+    {
+        printf("No existe.\n");
+    }
+    nuevo->siguiente = anterior_nodo->siguiente;
+    anterior_nodo->siguiente = siguiente_nodo;
+    anterior_nodo->anterior = anterior_nodo;
+    if(nuevo->siguiente!=NULL)
+    {
+        nuevo->siguiente->anterior = nuevo;
+    }
+}
+
 void imprimirLista(NODO *cabeza)
 {
     // Nodo auxiliar para no perder el puntero de la cabeza
@@ -176,4 +220,17 @@ void imprimirLista(NODO *cabeza)
         // Cambiar puntero por siguiente nodo
         nAux = nAux->siguiente;
     }
+}
+
+void eliminar(NODO **cabeza)
+{
+    NODO *lista = *cabeza;
+    NODO *siguiente;
+    while (lista != NULL)
+    {
+        siguiente = lista -> siguiente;
+        free (lista);
+        lista = siguiente;
+    }
+    *cabeza= NULL;
 }
