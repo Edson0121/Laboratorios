@@ -36,8 +36,9 @@ int main()
     printList(head);
 
     getHighestPriority(&head);
-    //deleteHighestPriority(&head);
+    deleteHighestPriority(&head);
 
+    printList(head);
     deleteList(head);
     return 0;
 }
@@ -140,16 +141,20 @@ void deleteHighestPriority(NODO **head)
         // Save data and priority value
         int d, pr;
         // Travel the list until the last node (highest priority)
-        while (temp->next != NULL)
+        while(temp->next->next != NULL)
         {
             temp = temp->next;
         }
         // Save values on the variables
-        d = temp->data;
-        pr = temp->priority;
+        d = temp->next->data;
+        pr = temp->next->priority;
         printf("%d was deleted from the queue list and it's priority was %d\n", d, pr);
+        // Delete last node
+        NODO* lastNode = NULL;
+        lastNode = temp->next;
+        temp->next = NULL;
         // Free the node's memory
-        free(temp);
+        free(lastNode);
     }
 }
 
