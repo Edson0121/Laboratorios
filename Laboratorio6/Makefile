@@ -1,7 +1,7 @@
 CC = gcc # Compilador
 CFLAGS = -Wall -Werror # Warning flags
 LDFLAGS = # Linking flags
-OBJFILES = colas.o # Object files
+OBJFILES = colas.o # Object files //callback.o
 TARGET = output
 
 all: $(TARGET)
